@@ -5,3 +5,11 @@ DOTemacs file
 ### OVERVIEW:
 
 An emacs configuration file, used by Bumblehead.
+
+Should be loaded by `$HOME/.emacs` with the following:
+
+ ```lisp
+ (load-file "~/path/to/DOTEmacs/DOTEmacs.el")
+ ```
+ 
+Using DOTEmacs from its repository makes it easier to synchronise any changes.
