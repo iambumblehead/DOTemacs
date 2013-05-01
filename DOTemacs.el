@@ -74,6 +74,13 @@
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache$" . mustache-mode))
 
+(defun markdown-custom ()
+  "markdown-mode-hook"
+  (gfm-mode))
+;;  (setq markdown-command "markdown | smartypants"))
+(add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
+
+
 
 
 (defun split-horizontally-for-temp-buffers ()
@@ -130,3 +137,11 @@
 
 (load-file "~/Software/scroungejs/confEmacs/scrounge.el")
 (load-file "~/Software/Emacs/emacs-javascript-bundle/conf.el")
+
+
+
+(setq browse-url-browser-function 'w3m-browse-url)
+(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
+ ;; optional keyboard short-cut
+(global-set-key "\C-xm" 'browse-url-at-point)
+(setq w3m-default-display-inline-images 't)
