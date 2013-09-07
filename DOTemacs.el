@@ -4,13 +4,11 @@
 ;; M-x load-file RET ~/.emacs RET
 
 (defvar *emacs-util-path* "~/Software/Emacs")
-(defvar *emacs-js2-mode-path* (concat *emacs-util-path* "/js2-mode"))
 (defvar *emacs-json-mode-path* (concat *emacs-util-path* "/json-mode"))
 (defvar *emacs-w3Validator-path* (concat *emacs-util-path* "/w3validator"))
 
 
 (add-to-list 'load-path *emacs-util-path*)
-(add-to-list 'load-path *emacs-js2-mode-path*)
 (add-to-list 'load-path *emacs-json-mode-path*)
 
 (require 'package)
@@ -63,10 +61,6 @@
 (setq tramp-default-method "ssh")
 
 
-
-(require 'mustache-mode)
-
-(autoload 'js2-mode "js2-mode" nil t)
 (autoload 'json-mode "json-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$"  . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.js$"  . js2-mode))
