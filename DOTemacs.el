@@ -4,12 +4,12 @@
 ;; M-x load-file RET ~/.emacs RET
 
 (defvar *emacs-util-path* "~/Software/Emacs")
-(defvar *emacs-json-mode-path* (concat *emacs-util-path* "/json-mode"))
-(defvar *emacs-w3Validator-path* (concat *emacs-util-path* "/w3validator"))
-
+;;(defvar *emacs-json-mode-path* (concat *emacs-util-path* "/json-mode"))
 
 (add-to-list 'load-path *emacs-util-path*)
-(add-to-list 'load-path *emacs-json-mode-path*)
+;;(add-to-list 'load-path *emacs-json-mode-path*)
+
+(load-file "~/Software/DOTemacs/Emacs/json-mode/json-mode.el")
 
 (require 'package)
 (add-to-list 'package-archives
@@ -39,6 +39,9 @@
 (set-default-font "Liberation Mono-12")
 
 ;; highlight the current line; set a custom face
+;;(defface hl-line '((t (:background "Gray10")))
+;;(defface hl-line '((t (:background "Gray10")))
+;;(defface hl-line '((t (:background "red" :bold t)))
 (defface hl-line '((t (:background "Gray10")))
   "Face to use for `hl-line-face'." :group 'hl-line)
 (setq hl-line-face 'hl-line)
@@ -61,7 +64,7 @@
 (setq tramp-default-method "ssh")
 
 
-(autoload 'json-mode "json-mode" nil t)
+;;(autoload 'json-mode "json-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$"  . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.js$"  . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
@@ -131,11 +134,25 @@
 
 (load-file "~/Software/scroungejs/confEmacs/scrounge.el")
 (load-file "~/Software/Emacs/emacs-javascript-bundle/conf.el")
+;;(load-file "~/Software/Emacs/json-mode/json-mode.el")
 
-
+(setq js-indent-level 2)
 
 (setq browse-url-browser-function 'w3m-browse-url)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
  ;; optional keyboard short-cut
 (global-set-key "\C-xm" 'browse-url-at-point)
 (setq w3m-default-display-inline-images 't)
+
+;; http://www.emacswiki.org/emacs/WindowResize
+(global-set-key (kbd "C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-<down>") 'shrink-window)
+(global-set-key (kbd "C-<up>") 'enlarge-window)
+
+;;(global-set-key (kbd "S-C-b") 'shrink-window-horizontally)
+;;(global-set-key (kbd "S-C-n") 'enlarge-window-horizontally)
+;;(global-set-key (kbd "S-C-p") 'shrink-window)
+;;(global-set-key (kbd "S-C-n") 'enlarge-window)
+
+(autoload 'dirtree "dirtree" "Add directory to tree view" t)
