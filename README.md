@@ -13,3 +13,5 @@ Should be loaded by `$HOME/.emacs` with the following:
  ```
  
 Using DOTEmacs from its repository makes it easier to synchronise any changes.
+
+[0]: http://www.bumblehead.com                            "bumblehead"
