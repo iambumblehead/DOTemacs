@@ -3,14 +3,6 @@
 ;; C-x C-e to reload this from running emacs instance
 ;; M-x load-file RET ~/.emacs RET
 
-(defvar *emacs-util-path* "~/Software/Emacs")
-;;(defvar *emacs-json-mode-path* (concat *emacs-util-path* "/json-mode"))
-
-(add-to-list 'load-path *emacs-util-path*)
-;;(add-to-list 'load-path *emacs-json-mode-path*)
-
-(load-file "~/Software/DOTemacs/Emacs/json-mode/json-mode.el")
-
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -36,7 +28,8 @@
 ;; appearance/theme
 (require 'linum)
 (load-theme 'tsdh-dark t)
-(set-default-font "Liberation Mono-12")
+;;(set-default-font "Liberation Mono-12")
+(set-default-font "UbuntuMono-16")
 
 ;; highlight the current line; set a custom face
 ;;(defface hl-line '((t (:background "Gray10")))
@@ -60,9 +53,7 @@
 (column-number-mode 1)
 (show-paren-mode    1)
 
-
 (setq tramp-default-method "ssh")
-
 
 ;;(autoload 'json-mode "json-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$"  . markdown-mode))
@@ -71,19 +62,22 @@
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache$" . mustache-mode))
 
-(defun markdown-custom ()
-  "markdown-mode-hook"
-  (gfm-mode))
-;;  (setq markdown-command "markdown | smartypants"))
-(add-hook 'markdown-mode-hook '(lambda() (markdown-custom)))
+(defun markdown-mode-hook ()
+  (gfm-mode)
+  (visual-line-mode 1))
 
+(add-hook 'markdown-mode-hook 'markdown-mode-hook)
 
+;; Use visual-line-mode in gfm-mode
+(defun gfm-mode-hook ()
+  (visual-line-mode 1))
+
+(add-hook 'gfm-mode-hook 'gfm-mode-hook)
 
 
 (defun split-horizontally-for-temp-buffers ()
   "Split the window horizontally for temp buffers."
   (when (one-window-p t) (split-window-horizontally)))
-
 
 ;; steve yegge
 (global-set-key (kbd "C-w") 'backward-kill-word)
@@ -111,7 +105,7 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(js2-basic-offset 2)
- '(js2-bounce-indent-p t)
+ ;;'(js2-bounce-indent-p t)
  '(js2-mirror-mode t))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -130,11 +124,6 @@
   (global-set-key (kbd "C-p") 'comint-previous-input)
   (global-set-key (kbd "C-n") 'comint-next-input))
 (add-hook 'shell-mode-hook 'bind-shell-history-keys)
-
-
-(load-file "~/Software/scroungejs/confEmacs/scrounge.el")
-(load-file "~/Software/Emacs/emacs-javascript-bundle/conf.el")
-;;(load-file "~/Software/Emacs/json-mode/json-mode.el")
 
 (setq js-indent-level 2)
 
@@ -156,3 +145,4 @@
 ;;(global-set-key (kbd "S-C-n") 'enlarge-window)
 
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
+
