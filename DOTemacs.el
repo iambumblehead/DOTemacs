@@ -56,23 +56,43 @@
 (setq tramp-default-method "ssh")
 
 ;;(autoload 'json-mode "json-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.md$"  . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md$"  . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.js$"  . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache$" . mustache-mode))
 
+;; Use visual-line-mode in gfm-mode
+;;(defun gfm-mode-hook ()
+;;  (visual-line-mode 1))
+;;(add-hook 'gfm-mode-hook 'visual-line-mode)
+;;(add-hook 'gfm-mode-hook 'gfm-mode-hook)
+;; do not load gfm-mode after markdown-mode-hook
+;; use markdown-mode only or gfm-mode only
+
 (defun markdown-mode-hook ()
-  (gfm-mode)
+  ;;(gfm-mode)
   (visual-line-mode 1))
 
 (add-hook 'markdown-mode-hook 'markdown-mode-hook)
 
-;; Use visual-line-mode in gfm-mode
-(defun gfm-mode-hook ()
-  (visual-line-mode 1))
 
-(add-hook 'gfm-mode-hook 'gfm-mode-hook)
+
+;; use local eslint from node_modules before global
+;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
+
+(add-hook 'js2-mode-hook 'flycheck-mode)
 
 
 (defun split-horizontally-for-temp-buffers ()
