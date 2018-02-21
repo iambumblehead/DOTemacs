@@ -1,3 +1,3 @@
  ```elisp
- (load-file "~/path/to/DOTEmacs/DOTEmacs.el")
+ (load-file "~/path/to/DOTemacs/DOTemacs.el")
 ```
