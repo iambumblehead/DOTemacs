@@ -132,6 +132,8 @@
 (global-set-key "\C-xm" 'browse-url-at-point)
 (setq w3m-default-display-inline-images 't)
 
+(unless (window-system) (xterm-mouse-mode))
+
 ;; http://www.emacswiki.org/emacs/WindowResize
 (global-set-key (kbd "C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "C-<right>") 'enlarge-window-horizontally)
