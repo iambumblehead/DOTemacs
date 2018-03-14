@@ -28,6 +28,8 @@
 ;; appearance/theme
 (require 'linum)
 (load-theme 'tsdh-dark t)
+;;(load-theme 'darktooth t)
+;;(load-theme 'spacemacs-light t)
 ;;(set-default-font "Liberation Mono-12")
 (set-default-font "UbuntuMono-16")
 
@@ -46,7 +48,7 @@
 
 ;; indent with spaces
 (setq-default indent-tabs-mode nil)
-(setq tab-width 4)
+(setq tab-width 2)
 (setq-default truncate-lines t)
 
 (line-number-mode   1)
@@ -57,26 +59,17 @@
 
 ;;(autoload 'json-mode "json-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.md$"  . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.js$"  . js2-mode))
+;;(add-to-list 'auto-mode-alist '("\\.js$"  . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js$"  . js2-jsx-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache$" . mustache-mode))
-
-;; Use visual-line-mode in gfm-mode
-;;(defun gfm-mode-hook ()
-;;  (visual-line-mode 1))
-;;(add-hook 'gfm-mode-hook 'visual-line-mode)
-;;(add-hook 'gfm-mode-hook 'gfm-mode-hook)
-;; do not load gfm-mode after markdown-mode-hook
-;; use markdown-mode only or gfm-mode only
 
 (defun markdown-mode-hook ()
   ;;(gfm-mode)
   (visual-line-mode 1))
 
 (add-hook 'markdown-mode-hook 'markdown-mode-hook)
-
-
 
 ;; use local eslint from node_modules before global
 ;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
@@ -119,21 +112,6 @@
 (setq backup-directory-alist `(("." . "~/.saves")))
 (setq backup-by-copying t)
 
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(js2-basic-offset 2)
- ;;'(js2-bounce-indent-p t)
- '(js2-mirror-mode t))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
-
 ;; http://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
@@ -145,7 +123,8 @@
   (global-set-key (kbd "C-n") 'comint-next-input))
 (add-hook 'shell-mode-hook 'bind-shell-history-keys)
 
-(setq js-indent-level 2)
+(setq js-indent-level 4)
+(setq sgml-basic-offset 4)
 
 (setq browse-url-browser-function 'w3m-browse-url)
 (autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
