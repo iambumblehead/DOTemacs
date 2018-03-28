@@ -27,11 +27,35 @@
 
 ;; appearance/theme
 (require 'linum)
-(load-theme 'tsdh-dark t)
-;;(load-theme 'darktooth t)
-;;(load-theme 'spacemacs-light t)
-;;(set-default-font "Liberation Mono-12")
-(set-default-font "UbuntuMono-16")
+(require 'hlinum)
+(hlinum-activate)
+
+;(require 'sublimity)
+;(require 'sublimity-scroll)
+;(require 'sublimity-map)
+
+(require 'solaire-mode)
+
+;; brighten buffers (that represent real files)
+(add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
+
+(load-theme 'doom-citylights t)
+;;(load-theme 'tsdh-dark t)
+;;(load-theme 'zenburn t)
+
+
+(when (member "Menlo" (font-family-list))
+  (set-face-attribute
+   'default nil
+   :family "Menlo"
+   :height 180))
+
+(when (member "Ubuntu Mono" (font-family-list))
+  (set-face-attribute
+   'default nil
+   :family "Ubuntu Mono"
+   :height 180))
+
 
 ;; highlight the current line; set a custom face
 ;;(defface hl-line '((t (:background "Gray10")))
