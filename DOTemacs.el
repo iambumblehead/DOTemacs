@@ -39,7 +39,7 @@
 ;; brighten buffers (that represent real files)
 (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
 
-(load-theme 'doom-citylights t)
+(load-theme 'doom-city-lights t)
 ;;(load-theme 'tsdh-dark t)
 ;;(load-theme 'zenburn t)
 
