@@ -82,12 +82,10 @@
 (setq tramp-default-method "ssh")
 
 ;;(autoload 'json-mode "json-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.md$"  . gfm-mode))
-;;(add-to-list 'auto-mode-alist '("\\.js$"  . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.js$"  . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.m?js$" . js2-jsx-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache$" . mustache-mode))
 
 (defun markdown-mode-hook ()
   ;;(gfm-mode)
@@ -129,7 +127,6 @@
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c C-k") 'kill-region)
 
-
 (defun string-replace (substr newstr fullstr)
   "replace SUBSTR with NEWSTR' in the string FULLSTR"
   (with-temp-buffer
@@ -138,7 +135,6 @@
     (while (search-forward substr nil t)
       (replace-match newstr nil t))
     (buffer-substring (point-min) (point-max))))
-
 
 ;; backup 
 (setq backup-directory-alist `(("." . "~/.saves")))
@@ -155,14 +151,8 @@
   (global-set-key (kbd "C-n") 'comint-next-input))
 (add-hook 'shell-mode-hook 'bind-shell-history-keys)
 
-(setq js-indent-level 4)
-(setq sgml-basic-offset 4)
-
-(setq browse-url-browser-function 'w3m-browse-url)
-(autoload 'w3m-browse-url "w3m" "Ask a WWW browser to show a URL." t)
- ;; optional keyboard short-cut
-(global-set-key "\C-xm" 'browse-url-at-point)
-(setq w3m-default-display-inline-images 't)
+(setq js-indent-level 2)
+(setq sgml-basic-offset 2)
 
 (unless (window-system) (xterm-mouse-mode))
 
@@ -171,11 +161,6 @@
 (global-set-key (kbd "C-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-<down>") 'shrink-window)
 (global-set-key (kbd "C-<up>") 'enlarge-window)
-
-;;(global-set-key (kbd "S-C-b") 'shrink-window-horizontally)
-;;(global-set-key (kbd "S-C-n") 'enlarge-window-horizontally)
-;;(global-set-key (kbd "S-C-p") 'shrink-window)
-;;(global-set-key (kbd "S-C-n") 'enlarge-window)
 
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
