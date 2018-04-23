@@ -35,13 +35,16 @@
 ;(require 'sublimity-map)
 
 (require 'solaire-mode)
+(require 'clojure-mode)
 
 ;; brighten buffers (that represent real files)
 (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
 
-(load-theme 'doom-city-lights t)
 ;;(load-theme 'tsdh-dark t)
 ;;(load-theme 'zenburn t)
+(if (display-graphic-p)
+    (load-theme 'doom-city-lights t)
+  (load-theme 'doom-peacock t)) ;; shell
 
 
 (when (member "Menlo" (font-family-list))
@@ -81,7 +84,8 @@
 
 (setq tramp-default-method "ssh")
 
-;;(autoload 'json-mode "json-mode" nil t)
+
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
 (add-to-list 'auto-mode-alist '("\\.m?js$" . js2-jsx-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
