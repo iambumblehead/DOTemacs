@@ -37,6 +37,12 @@
 (require 'solaire-mode)
 (require 'clojure-mode)
 
+(defun figwheel-repl ()
+  (interactive)
+  (inf-clojure "lein figwheel"))
+
+(add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+
 ;; brighten buffers (that represent real files)
 (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
 
@@ -60,14 +66,10 @@
    :height 180))
 
 
-;; highlight the current line; set a custom face
-;;(defface hl-line '((t (:background "Gray10")))
-;;(defface hl-line '((t (:background "Gray10")))
-;;(defface hl-line '((t (:background "red" :bold t)))
-(defface hl-line '((t (:background "Gray10")))
-  "Face to use for `hl-line-face'." :group 'hl-line)
 (setq hl-line-face 'hl-line)
 (global-hl-line-mode t)
+
+(set-face-background 'hl-line "#1c1c1c")
 
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode)   (tool-bar-mode   -1))
@@ -131,15 +133,6 @@
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c C-k") 'kill-region)
 
-(defun string-replace (substr newstr fullstr)
-  "replace SUBSTR with NEWSTR' in the string FULLSTR"
-  (with-temp-buffer
-    (insert fullstr)
-    (goto-char (point-min))
-    (while (search-forward substr nil t)
-      (replace-match newstr nil t))
-    (buffer-substring (point-min) (point-max))))
-
 ;; backup 
 (setq backup-directory-alist `(("." . "~/.saves")))
 (setq backup-by-copying t)
@@ -155,10 +148,16 @@
   (global-set-key (kbd "C-n") 'comint-next-input))
 (add-hook 'shell-mode-hook 'bind-shell-history-keys)
 
+;; javascript and jsx indent
 (setq js-indent-level 2)
 (setq sgml-basic-offset 2)
 
+;; allow mouse at emacs -nw
 (unless (window-system) (xterm-mouse-mode))
+
+;; allow copy-paste to and from emacs -nw
+(require 'xclip)
+(xclip-mode 1)
 
 ;; http://www.emacswiki.org/emacs/WindowResize
 (global-set-key (kbd "C-<left>") 'shrink-window-horizontally)
