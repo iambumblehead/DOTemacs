@@ -5,7 +5,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
+             ;;'("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (require 'ansi-color)
 
@@ -26,30 +27,31 @@
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; appearance/theme
-(require 'linum)
-(require 'hlinum)
-(hlinum-activate)
+;; (require 'linum)
+;; (require 'hlinum)
+;; (hlinum-activate)
 
 ;(require 'sublimity)
 ;(require 'sublimity-scroll)
 ;(require 'sublimity-map)
 
-(require 'solaire-mode)
-(require 'clojure-mode)
+;; (require 'solaire-mode)
+;; (require 'clojure-mode)
 
-(defun figwheel-repl ()
-  (interactive)
-  (inf-clojure "lein figwheel"))
+;; (defun figwheel-repl ()
+;;   (interactive)
+;;   (inf-clojure "lein figwheel"))
 
-(add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+;; (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
 
 ;; brighten buffers (that represent real files)
-(add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
+;; (add-hook 'after-change-major-mode-hook #'turn-on-solaire-mode)
 
 ;;(load-theme 'tsdh-dark t)
 ;;(load-theme 'zenburn t)
 (if (display-graphic-p)
-    (load-theme 'doom-city-lights t)
+    (load-theme 'doom-peacock t)
+  ;;  (load-theme 'doom-city-lights t)
   (load-theme 'doom-peacock t)) ;; shell
 
 
@@ -122,7 +124,8 @@
 
 (add-hook 'flycheck-mode-hook #'use-eslint-from-node-modules)
 (add-hook 'js2-mode-hook 'flycheck-mode)
-
+(add-hook 'js2-mode-hook 'eglot-ensure)
+(add-hook 'js2-mode-hook 'company-mode)
 
 (defun split-horizontally-for-temp-buffers ()
   "Split the window horizontally for temp buffers."
@@ -163,8 +166,8 @@
                               (scroll-up 1))))
 
 ;; allow copy-paste to and from emacs -nw
-(require 'xclip)
-(xclip-mode 1)
+;; (require 'xclip)
+;; (xclip-mode 1)
 
 ;; http://www.emacswiki.org/emacs/WindowResize
 (global-set-key (kbd "C-<left>") 'shrink-window-horizontally)
@@ -174,3 +177,46 @@
 
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
+
+
+(defun my-copy-to-xclipboard(arg)
+  (interactive "P")
+  (cond
+    ((not (use-region-p))
+      (message "Nothing to yank to X-clipboard"))
+    ((and (not (display-graphic-p))
+         (/= 0 (shell-command-on-region
+                 (region-beginning) (region-end) "xsel -i -b")))
+      (error "Is program `xsel' installed?"))
+    (t
+      (when (display-graphic-p)
+        (call-interactively 'clipboard-kill-ring-save))
+      (message "Yanked region to X-clipboard")
+      (when arg
+        (kill-region  (region-beginning) (region-end)))
+      (deactivate-mark))))
+
+(defun my-cut-to-xclipboard()
+  (interactive)
+  (my-copy-to-xclipboard t))
+
+(defun my-paste-from-xclipboard()
+  "Uses shell command `xsel -o' to paste from x-clipboard. With
+one prefix arg, pastes from X-PRIMARY, and with two prefix args,
+pastes from X-SECONDARY."
+  (interactive)
+  (if (display-graphic-p)
+    (clipboard-yank)
+   (let*
+     ((opt (prefix-numeric-value current-prefix-arg))
+      (opt (cond
+       ((=  1 opt) "b")
+       ((=  4 opt) "p")
+       ((= 16 opt) "s"))))
+    (insert (shell-command-to-string (concat "xsel -o -" opt))))))
+
+(global-set-key (kbd "C-c C-w") 'my-cut-to-xclipboard)
+(global-set-key (kbd "C-c M-w") 'my-copy-to-xclipboard)
+(global-set-key (kbd "C-c C-y") 'my-paste-from-xclipboard)
+
+;;; display-line-numbers-mode
