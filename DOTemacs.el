@@ -3,6 +3,11 @@
 ;; C-x C-e to reload this from running emacs instance
 ;; M-x load-file RET ~/.emacs RET
 
+;; backup
+(setq backup-by-copying t)
+(setq backup-directory-alist `(("." . "~/.emacs.d/saves/")))
+(setq create-lockfiles nil)
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
@@ -91,9 +96,11 @@
 
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.m?js$" . js2-jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.m?js$" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode))
+(add-hook 'typescript-mode-hook 'eglot-ensure)
 
 (defun markdown-mode-hook ()
   ;;(gfm-mode)
@@ -135,10 +142,6 @@
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-x C-k") 'kill-region)
 (global-set-key (kbd "C-c C-k") 'kill-region)
-
-;; backup 
-(setq backup-directory-alist `(("." . "~/.saves")))
-(setq backup-by-copying t)
 
 ;; http://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
 (require 'org-install)
@@ -218,5 +221,3 @@ pastes from X-SECONDARY."
 (global-set-key (kbd "C-c C-w") 'my-cut-to-xclipboard)
 (global-set-key (kbd "C-c M-w") 'my-copy-to-xclipboard)
 (global-set-key (kbd "C-c C-y") 'my-paste-from-xclipboard)
-
-;;; display-line-numbers-mode
