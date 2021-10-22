@@ -180,8 +180,6 @@
 
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
-
-
 (defun my-copy-to-xclipboard(arg)
   (interactive "P")
   (cond
@@ -218,6 +216,3 @@ pastes from X-SECONDARY."
        ((= 16 opt) "s"))))
     (insert (shell-command-to-string (concat "xsel -o -" opt))))))
 
-(global-set-key (kbd "C-c C-w") 'my-cut-to-xclipboard)
-(global-set-key (kbd "C-c M-w") 'my-copy-to-xclipboard)
-(global-set-key (kbd "C-c C-y") 'my-paste-from-xclipboard)
