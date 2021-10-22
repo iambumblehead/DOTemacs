@@ -11,7 +11,12 @@
       (process-send-eof proc))))
 
 (defun wl-paste-copy-from ()
-    (shell-command-to-string "wl-paste -n | tr -d '\r'"))
+  (shell-command-to-string "wl-paste -n | tr -d '\r'"))
+
+(defun xsel-paste-clear ()
+  (with-temp-buffer
+    (insert "")
+    (call-process-region (point-min) (point-max) "xsel" nil nil nil "-i" "-b")))    
 
 (defun xsel-paste-to (text &optional push)  
   (if (region-active-p)
@@ -19,15 +24,13 @@
         (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
         (deactivate-mark))
     (with-temp-buffer
-      (insert text)
-      (call-process-region (point-min) (point-max) "xsel" nil nil nil "-i" "-b")))))
+      (let ((last-clipped (shell-command-to-string "xsel -o -b")))
+        (insert (if (string-suffix-p last-clipped "\n")
+                    (concat last-clipped text) text))
+        (call-process-region (point-min) (point-max) "xsel" nil nil nil "-i" "-b")))))
 
 (defun xsel-copy-from ()
-  (if (display-graphic-p)
-      (progn
-        (clipboard-yank)
-        (message "graphics active"))
-    (shell-command-to-string "xsel -o -b")))
+  (shell-command-to-string "xsel -o -b"))
 
 (defun pbcopy-paste-to (text &optional push)
   (let ((process-connection-type nil))
@@ -52,6 +55,7 @@
   (cond ((executable-find "pbcopy") ;; osx
          (setq interprogram-cut-function 'pbcopy-paste-to))
         ((executable-find "xsel") ;; linux
+         (xsel-paste-clear)
          (setq interprogram-cut-function 'xsel-paste-to))
         ((executable-find "wl-copy") ;; not as good as xsel
          (setq interprogram-cut-function 'wl-copy-paste-to))))
